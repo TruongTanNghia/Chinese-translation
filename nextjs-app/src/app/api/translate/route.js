@@ -1,6 +1,8 @@
 export async function POST(request) {
   try {
-    const { text, sourceLang, targetLang, apiKey, engine } = await request.json();
+    const body = await request.json();
+    const { text, sourceLang, targetLang, engine } = body;
+    const apiKey = body.apiKey || process.env.OPENAI_API_KEY || '';
 
     if (!text || !sourceLang || !targetLang) {
       return Response.json({ error: 'Missing required fields' }, { status: 400 });

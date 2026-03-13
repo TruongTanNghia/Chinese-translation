@@ -4,13 +4,13 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
     const audioFile = formData.get('audio');
-    const apiKey = formData.get('apiKey');
+    const apiKey = formData.get('apiKey') || process.env.OPENAI_API_KEY || '';
 
     if (!audioFile) {
       return NextResponse.json({ error: 'No audio file' }, { status: 400 });
     }
     if (!apiKey) {
-      return NextResponse.json({ error: 'No API key' }, { status: 400 });
+      return NextResponse.json({ error: 'No API key. Set OPENAI_API_KEY env var or enter in Settings.' }, { status: 400 });
     }
 
     // Send to OpenAI Whisper with verbose_json to get language detection
