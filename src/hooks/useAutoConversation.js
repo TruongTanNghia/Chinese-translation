@@ -180,10 +180,6 @@ export default function useAutoConversation({ apiKey, engine, srcLangCode, tgtLa
   const processAudioChunk = useCallback(async (audioBlob) => {
     // Block processing if TTS is playing (anti-feedback)
     if (isSpeakingRef.current || isPausedRef.current) return;
-    if (!apiKey) {
-      if (onError) onError('Cần API Key OpenAI');
-      return;
-    }
     if (onTranslating) onTranslating(true);
 
     try {
