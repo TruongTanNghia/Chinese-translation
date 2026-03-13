@@ -223,7 +223,9 @@ export default function HomePage() {
     <div className="conv-auto">
       <div className="conv-auto-btn-area">
         <button className={`conv-auto-btn ${autoConv.isListening ? 'active' : ''}`} onClick={toggleAutoConversation}>
-          <span className="conv-auto-btn-inner" style={{ fontSize: 28 }}>{autoConv.isListening ? '⏹' : '🎙'}</span>
+          <span className="conv-auto-btn-inner">{autoConv.isListening ? '⏹' : '🎙'}</span>
+          {autoConv.isListening && <span className="pulse-ring" />}
+          {autoConv.isListening && <span className="pulse-ring p2" />}
         </button>
         <div className="conv-auto-status">
           {!autoConv.isListening && '🎙️ Nhấn để bắt đầu giao tiếp'}
@@ -322,10 +324,10 @@ export default function HomePage() {
 
         {viewMode === 'conversation' ? conversationView : (
           <>
-            <div className="lang-selector" style={{ justifyContent: 'center', marginBottom: 20 }}>
-              <span style={{ fontSize: 15, fontWeight: 600 }}>{srcLang.flag} {srcLang.name}</span>
+            <div className="lang-bar">
+              <span className="lang-chip"><span className="flag">{srcLang.flag}</span>{srcLang.name}</span>
               <button className="swap-btn" onClick={swapLangs}>⇄</button>
-              <span style={{ fontSize: 15, fontWeight: 600 }}>{tgtLang.flag} {tgtLang.name}</span>
+              <span className="lang-chip"><span className="flag">{tgtLang.flag}</span>{tgtLang.name}</span>
             </div>
 
             <div className="panels">
@@ -342,11 +344,12 @@ export default function HomePage() {
                   {interimText && activeMic === 'source' && <div className="sentence interim">{interimText}</div>}
                 </div>
                 <div className="panel-footer">
-                  <button className={`record-btn ${activeMic === 'source' ? 'recording' : ''}`} onClick={() => toggleMic('source')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none', border: '1px solid var(--border)', borderRadius: 'var(--r-sm)', padding: '6px 14px', color: 'var(--text)', cursor: 'pointer', fontSize: 13 }}>
-                    {activeMic === 'source' ? '⏹ Dừng' : '🎤 Nói'}
+                  <button className={`mic-btn ${activeMic === 'source' ? 'recording' : ''}`} onClick={() => toggleMic('source')}>
+                    <span className="mic-icon">{activeMic === 'source' ? '⏹' : '🎤'}</span>
+                    {activeMic === 'source' ? 'Dừng' : 'Nói'}
                   </button>
-                  {activeMic === 'source' && <span className="timer" style={{ marginLeft: 10, fontSize: 14 }}>{formatTime(sttSource.elapsed)}</span>}
-                  {isTranslating && <span style={{ marginLeft: 10, fontSize: 12, color: 'var(--accent2)' }}>⏳ Đang dịch...</span>}
+                  {activeMic === 'source' && <span className="timer">{formatTime(sttSource.elapsed)}</span>}
+                  {isTranslating && <span className="translating-badge">⏳ Đang dịch...</span>}
                 </div>
               </div>
 
